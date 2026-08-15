@@ -25,7 +25,7 @@ try:
     ADMIN_PASSWORD = st.secrets["ADMIN_PASSWORD"]
 except Exception:
     st.error(
-        "⚠️ تنبيه أمني: لم يتم العثور على كلمة مرور المسؤول في ملف الأسرار"
+        "⚠️ تنبيه أمني: لم يتم العثور على كلمة مرور المدير المالي في ملف الأسرار"
         " (st.secrets). يرجى إعداد ملف الـ secrets."
     )
     st.stop()
@@ -323,11 +323,11 @@ translations = {
     "English": {
         "title": "🔐 بوابة افراد ميراج- لتفاصيل الرواتب و المستحقات المالية",
         "subtitle": "🆔 Please enter your National ID to proceed.",
-        "admin_header": "🛠️ Admin Control Panel",
-        "admin_pass_label": "🔑 Enter Admin Password:",
-        "admin_pass_btn": "🔓 Unlock Admin Panel",
-        "admin_access_denied": "❌ Incorrect Admin Password.",
-        "admin_panel_unlocked": "✨ Admin Panel Unlocked Successfully!",
+        "admin_header": "🛠️ Chief Financial Officer Panel",
+        "admin_pass_label": "🔑 Enter CFO Password:",
+        "admin_pass_btn": "🔓 Unlock CFO Panel",
+        "admin_access_denied": "❌ Incorrect CFO Password.",
+        "admin_panel_unlocked": "✨ CFO Panel Unlocked Successfully!",
         "portal_master_toggle": "🔓 Enable Employee Portal Access",
         "portal_locked_msg": (
             "⚠️ PORTAL LOCKED: Employee login is completely disabled."
@@ -375,11 +375,11 @@ translations = {
     "العربية": {
         "title": "🔐 بوابة افراد ميراج- لتفاصيل الرواتب و المستحقات المالية",
         "subtitle": "🆔 الرجاء إدخال الرقم القومي للمتابعة.",
-        "admin_header": "🛠️ لوحة تحكم المسؤول (Admin)",
-        "admin_pass_label": "🔑 أدخل كلمة مرور المسؤول:",
-        "admin_pass_btn": "🔓 فتح لوحة المسؤول",
-        "admin_access_denied": "❌ كلمة مرور المسؤول غير صحيحة.",
-        "admin_panel_unlocked": "✨ تم فتح لوحة المسؤول بنجاح!",
+        "admin_header": "🛠️ لوحة تحكم المدير المالي",
+        "admin_pass_label": "🔑 أدخل كلمة مرور المدير المالي:",
+        "admin_pass_btn": "🔓 فتح لوحة المدير المالي",
+        "admin_access_denied": "❌ كلمة مرور المدير المالي غير صحيحة.",
+        "admin_panel_unlocked": "✨ تم فتح لوحة المدير المالي بنجاح!",
         "portal_master_toggle": "🔓 تفعيل دخول الموظفين للبوابة",
         "portal_locked_msg": (
             "⚠️ البوابة مغلقة: تسجيل دخول الموظفين معطل بالكامل."
@@ -523,7 +523,7 @@ else:
     if os.path.exists(SHARED_FILE):
         st.sidebar.markdown("---")
         
-        # --- إضافة إحصائيات كلمات المرور هنا للآدمن فقط ---
+        # --- إحصائيات كلمات المرور للمدير المالي فقط ---
         df_stats = load_excel_df()
         if df_stats is not None:
             total_emps = len(df_stats)
@@ -536,7 +536,7 @@ else:
             col_s2.metric("⏳ لم ينشئوا", pending_pass_count)
             st.sidebar.markdown(f"**إجمالي الموظفين:** `{total_emps}`")
             st.sidebar.markdown("---")
-        # ------------------------------------------------
+        # ---------------------------------------------
 
         st.sidebar.subheader(t["admin_employees_header"])
         df_admin = load_excel_df()
@@ -620,7 +620,7 @@ else:
         st.cache_data.clear()
         st.rerun()
 
-    if st.sidebar.button("🔒 Lock Admin Panel / قفل لوحة المسؤول"):
+    if st.sidebar.button("🔒 Lock CFO Panel / قفل لوحة المدير المالي"):
         st.session_state.admin_logged_in = False
         st.cache_data.clear()
         st.rerun()
