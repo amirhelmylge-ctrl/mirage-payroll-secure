@@ -440,7 +440,7 @@ def read_excel_file(file_path_or_buffer):
         raise Exception(f"Could not read the Excel file: {e}")
 
 
-@st.cache_data(ttl=600)  # تخزين مؤقت للبيانات لمدة 10 دقائق لتسريع التنقل بشكل هائل
+@st.cache_data(ttl=600)
 def load_excel_df():
     if not os.path.exists(SHARED_FILE):
         return None
@@ -465,7 +465,7 @@ def load_excel_df():
 def save_excel_safely(df):
     df = normalize_dataframe_columns(df)
     df.to_excel(SHARED_FILE, index=False)
-    st.cache_data.clear()  # مسح الذاكرة المؤقتة تلقائياً عند تحديث البيانات
+    st.cache_data.clear()
 
 
 # ====================================================================
@@ -522,6 +522,22 @@ else:
 
     if os.path.exists(SHARED_FILE):
         st.sidebar.markdown("---")
+        
+        # --- إضافة إحصائيات كلمات المرور هنا للآدمن فقط ---
+        df_stats = load_excel_df()
+        if df_stats is not None:
+            total_emps = len(df_stats)
+            has_pass_count = sum(df_stats["Password"].astype(str).str.strip() != "")
+            pending_pass_count = total_emps - has_pass_count
+            
+            st.sidebar.markdown("### 📊 إحصائيات كلمات المرور")
+            col_s1, col_s2 = st.sidebar.columns(2)
+            col_s1.metric("🔒 أنشئوا", has_pass_count)
+            col_s2.metric("⏳ لم ينشئوا", pending_pass_count)
+            st.sidebar.markdown(f"**إجمالي الموظفين:** `{total_emps}`")
+            st.sidebar.markdown("---")
+        # ------------------------------------------------
+
         st.sidebar.subheader(t["admin_employees_header"])
         df_admin = load_excel_df()
 
